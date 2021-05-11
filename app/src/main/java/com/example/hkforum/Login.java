@@ -1,14 +1,23 @@
 package com.example.hkforum;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -42,13 +51,61 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnLogin:
-                startActivity(new Intent(this,Forum.class));
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("message");
-                myRef.setValue("Hello, World");
+                userLogin();
+//                startActivity(new Intent(this,Forum.class));
+
                 break;
             case R.id.tvGoToRegister:
                 startActivity(new Intent(this,Register.class));
+        }
+    }
+
+    private void userLogin() {
+        String email = edEmail.getText().toString().trim();
+        String password = edPassword.getText().toString().trim();
+
+        if(email.isEmpty()){
+            edEmail.setError("Email is required!");
+            edEmail.requestFocus();
+            return;
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            edEmail.setError("Please enter a valid email!");
+            edEmail.requestFocus();
+            return;
+        }
+        if(password.isEmpty()){
+            edPassword.setError("Password is required!");
+            edPassword.requestFocus();
+            return;
+        }
+        if(password.length() < 8){
+            edPassword.setError("Password should be 8 characters!");
+            edPassword.requestFocus();
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                closeKeyboard();
+
+                if (task.isSuccessful()){
+                    //redirect to user profile
+                    startActivity(new Intent(Login.this, Forum.class));
+                } else {
+                    Toast.makeText(Login.this, "Failed to login! Please check your email or password!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
     }
 }

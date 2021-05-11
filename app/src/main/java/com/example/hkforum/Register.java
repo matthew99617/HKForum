@@ -1,9 +1,11 @@
 package com.example.hkforum;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -149,6 +151,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
+                        closeKeyboard();
+
                         if (task.isSuccessful()){
                             User user = new User(firstName, lastName, userName, email, password);
 
@@ -159,8 +163,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     if (task.isSuccessful()){
+
+                                        startActivity(new Intent(Register.this, Login.class));
                                         Toast.makeText(Register.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
-                                        //redirect to login layout!
+
                                     }else{
                                         Toast.makeText(Register.this,"Failed to register! Try again!", Toast.LENGTH_LONG).show();
                                     }
@@ -173,5 +179,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         }
                     }
                 });
+    }
+
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
     }
 }
