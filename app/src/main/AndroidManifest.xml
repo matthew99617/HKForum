@@ -21,9 +21,10 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity android:name=".Register"/>
-        <activity android:name=".Forum"/>
+        <activity android:name=".ChooseLocation"/>
         <activity android:name=".Profile"/>
-        <activity android:name=".AnotherForum"/>
+        <activity android:name=".ToForum"/>
+        <activity android:name=".PostToForum"/>
     </application>
 
 </manifest>

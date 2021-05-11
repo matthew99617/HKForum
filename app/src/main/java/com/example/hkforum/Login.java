@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +18,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -51,8 +48,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnLogin:
-                userLogin();
-//                startActivity(new Intent(this,Forum.class));
+//                userLogin();
+                startActivity(new Intent(this, ToForum.class));
 
                 break;
             case R.id.tvGoToRegister:
@@ -93,7 +90,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 if (task.isSuccessful()){
                     //redirect to user profile
-                    startActivity(new Intent(Login.this, Forum.class));
+                    startActivity(new Intent(Login.this, ChooseLocation.class));
                 } else {
                     Toast.makeText(Login.this, "Failed to login! Please check your email or password!", Toast.LENGTH_LONG).show();
                 }

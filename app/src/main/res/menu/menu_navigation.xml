@@ -2,9 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/choForum"
+        android:id="@+id/dashboard"
         android:title="Forum"
         android:icon="@drawable/ic_dashboard"/>
+
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/gps"
+        android:title="GPS"
+        android:icon="@drawable/ic_location_on"/>
 
     <item
         android:id="@+id/post"
@@ -15,4 +25,6 @@
         android:id="@+id/profile"
         android:title="Profile"
         android:icon="@drawable/ic_person"/>
+
+
 </menu>
