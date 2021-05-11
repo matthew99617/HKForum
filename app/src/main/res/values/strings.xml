@@ -1,3 +1,30 @@
 <resources>
-    <string name="app_name">HKForum</string>
+    <string name="app_name">HongKongForum</string>
+    <string name="top_icon">TOP ICON</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forget password?</string>
+    <string name="new_user_register_now">New User?? Register Now!!</string>
+    <string name="registration">Registration</string>
+    <string name="regFirstname">First Name:</string>
+    <string name="regLastname">Last Name:</string>
+    <string name="regEmail">Email:</string>
+    <string name="regPassword">Password:</string>
+    <string name="regConfirmPassword">Confirm password:</string>
+    <string name="regUserName">Username:</string>
+    <string name="tvEditBlank">All Blank should be written.</string>
+    <string name="tvWelcome">Welcome to Forum!</string>
+    <string name="tvChoLocation">You can choose another forum at the bottom.</string>
+    <string name="tvProfile">Your Profile</string>
+    <string name="tvEdit">Edit</string>
+    <string name="tvAccName">Username:</string>
+    <string name="tvChangePassword">Change Password</string>
+    <string name="tvPost">Post</string>
+    <string name="tvCreatePost">Create Post</string>
+    <string name="tvTitle">Title</string>
+    <string name="tvThink">What is on your mind?</string>
+
+
+
 </resources>

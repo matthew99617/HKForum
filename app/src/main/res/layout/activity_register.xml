@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profileView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/regViewBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/infoPlace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileView">
+
+
+        <TextView
+            android:id="@+id/tvFirstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="290dp"
+            android:gravity="center"
+            android:text="@string/regFirstname"
+            app:layout_constraintBottom_toTopOf="@+id/edConfirmPassword"
+            app:layout_constraintEnd_toStartOf="@+id/edFirstName" />
+
+        <TextView
+            android:id="@+id/tvLastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/regLastname"
+            app:layout_constraintEnd_toStartOf="@+id/edLastName"
+            app:layout_constraintTop_toBottomOf="@+id/edFirstName" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/regEmail"
+            app:layout_constraintEnd_toStartOf="@+id/edEmail"
+            app:layout_constraintTop_toBottomOf="@+id/edLastName" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="#ff0000"
+            app:layout_constraintStart_toEndOf="@+id/tvConfirmPassword"
+            app:layout_constraintTop_toBottomOf="@+id/tvConfirmPassword" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="#ff0000"
+            app:layout_constraintStart_toEndOf="@+id/tvEmail"
+            app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="#ff0000"
+            app:layout_constraintStart_toEndOf="@+id/tvUserName"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="#ff0000"
+            app:layout_constraintStart_toEndOf="@+id/tvLastName"
+            app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="#ff0000"
+            app:layout_constraintStart_toEndOf="@+id/tvPassword"
+            app:layout_constraintTop_toBottomOf="@+id/tvPassword" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="#ff0000"
+            app:layout_constraintStart_toEndOf="@+id/tvFirstName"
+            app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/regUserName"
+            app:layout_constraintEnd_toStartOf="@+id/edUserName"
+            app:layout_constraintTop_toBottomOf="@+id/edEmail" />
+
+        <TextView
+            android:id="@+id/tvPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/regPassword"
+            app:layout_constraintEnd_toStartOf="@+id/edPassword"
+            app:layout_constraintTop_toBottomOf="@+id/edUserName" />
+
+        <TextView
+            android:id="@+id/tvConfirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="290dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/regConfirmPassword"
+            app:layout_constraintEnd_toStartOf="@+id/edConfirmPassword"
+            app:layout_constraintTop_toBottomOf="@+id/edFirstName" />
+
+        <EditText
+            android:id="@+id/edLastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/round_border"
+            android:drawablePadding="16dp"
+            android:ems="10"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edFirstName" />
+
+        <EditText
+            android:id="@+id/edEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/round_border"
+            android:drawablePadding="16dp"
+            android:ems="10"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edLastName" />
+
+        <EditText
+            android:id="@+id/edFirstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/round_border"
+            android:drawablePadding="16dp"
+            android:ems="10"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/round_border"
+            android:drawablePadding="16dp"
+            android:ems="10"
+            android:padding="10dp"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edUserName" />
+
+        <EditText
+            android:id="@+id/edUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/round_border"
+            android:drawablePadding="16dp"
+            android:ems="10"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edEmail" />
+
+        <EditText
+            android:id="@+id/edConfirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/round_border"
+            android:drawablePadding="16dp"
+            android:ems="10"
+            android:padding="10dp"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edPassword" />
+
+        <TextView
+            android:id="@+id/tvBlank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:text="@string/tvEditBlank"
+            android:textColor="@color/colorWarning"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edConfirmPassword" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="20dp"
+        android:text="Clear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoPlace" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
+        android:text="Submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoPlace" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

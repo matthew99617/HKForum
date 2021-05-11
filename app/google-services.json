@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "600307405197",
+    "firebase_url": "https://cem-303-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "cem-303",
+    "storage_bucket": "cem-303.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600307405197:android:d77a039ec54af77db82dc4",
+        "android_client_info": {
+          "package_name": "com.example.hkforum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600307405197-v9to872du5s378309rreulpbbsan3i5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAirIOrbBDCzn1bh7T6yI-R9PU7369Awmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600307405197-v9to872du5s378309rreulpbbsan3i5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600307405197:android:b77afca882dd2f8fb82dc4",
+        "android_client_info": {
+          "package_name": "com.example.hongkongforum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600307405197-v9to872du5s378309rreulpbbsan3i5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAirIOrbBDCzn1bh7T6yI-R9PU7369Awmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600307405197-v9to872du5s378309rreulpbbsan3i5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600307405197:android:e830126b381e2839b82dc4",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600307405197-v9to872du5s378309rreulpbbsan3i5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAirIOrbBDCzn1bh7T6yI-R9PU7369Awmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600307405197-v9to872du5s378309rreulpbbsan3i5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
