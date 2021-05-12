@@ -3,18 +3,25 @@ package com.example.hkforum;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class ToForum extends AppCompatActivity {
+public class ToForum extends AppCompatActivity implements View.OnClickListener{
+
+    private ImageView ic_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_forum);
+
+        ic_add = findViewById(R.id.ic_add);
+        ic_add.setOnClickListener(this);
 
         // Initialize and assign variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bottom);
@@ -49,5 +56,12 @@ public class ToForum extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.ic_add){
+            startActivity(new Intent(getApplicationContext(),PostToForum.class));
+        }
     }
 }

@@ -16,6 +16,8 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
 
     private EditText edTitle, edText;
 
+    private ImageView backToForum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,9 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
 
         edTitle = findViewById(R.id.editTitle);
         edText = findViewById(R.id.editText);
+
+        backToForum = findViewById(R.id.backToPost);
+        backToForum.setOnClickListener(this);
 
         // Initialize and assign variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bottom);
@@ -65,7 +70,12 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
             case R.id.backToPost:
                 startActivity(new Intent(getApplicationContext(),ToForum.class));
             case R.id.btnPost:
+                onPost();
 //                startActivity(new Intent(getApplicationContext(), ToForum.class));
         }
+    }
+
+    public void onPost(){
+
     }
 }

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hkforum.model.User;
+import com.example.hkforum.model.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,9 +27,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private EditText edFirstName, edLastName, edEmail, edUserName, edPassword, edConfirmPassword;
     private Button btnClear, btnSubmit;
     private ImageView regViewBack;
-
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference root = database.getReference("Users");
 
     private FirebaseAuth mAuth;
 
@@ -136,16 +133,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             return;
         }
 
-//        HashMap<String, String> userMap = new HashMap<>();
-//
-//        userMap.put("FirstName",firstName);
-//        userMap.put("LastName",lastName);
-//        userMap.put("UserName",userName);
-//        userMap.put("Email",email);
-//        userMap.put("Password",password);
-//
-//        root.setValue(firstName);
-
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -154,11 +141,11 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         closeKeyboard();
 
                         if (task.isSuccessful()){
-                            User user = new User(firstName, lastName, userName, email, password);
+                            Users users = new Users(firstName, lastName, userName, email);
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
 

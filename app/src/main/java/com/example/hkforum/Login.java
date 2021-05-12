@@ -35,7 +35,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
 
         forgetPassword = (TextView) findViewById(R.id.tvForgotPassword);
-        edEmail = (EditText) findViewById(R.id.inputEmail);
+        edEmail = (EditText) findViewById(R.id.inputLoginEmail);
         edPassword = (EditText) findViewById(R.id.inputPassword);
         registerUser = (TextView) findViewById(R.id.tvGoToRegister);
         registerUser.setOnClickListener(this);
@@ -48,9 +48,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnLogin:
-//                userLogin();
-                startActivity(new Intent(this, ToForum.class));
-
+                userLogin();
+//                startActivity(new Intent(this, ToForum.class));
                 break;
             case R.id.tvGoToRegister:
                 startActivity(new Intent(this,Register.class));
@@ -90,7 +89,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 if (task.isSuccessful()){
                     //redirect to user profile
-                    startActivity(new Intent(Login.this, ChooseLocation.class));
+                    startActivity(new Intent(Login.this, ToForum.class));
                 } else {
                     Toast.makeText(Login.this, "Failed to login! Please check your email or password!", Toast.LENGTH_LONG).show();
                 }

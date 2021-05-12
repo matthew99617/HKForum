@@ -24,5 +24,13 @@
     <string name="tvCreatePost">Create Post</string>
     <string name="tvTitle">Title</string>
     <string name="tvThink">What is on your mind?</string>
+    <string name="tvResetPassword">Reset Password</string>
+    <string name="btnReset">Reset</string>
+    <string name="tvUpdateUserName">Update Username</string>
+    <string name="tvUpdatePassword">Change Password</string>
+    <string name="tvNewPassword">New password</string>
+    <string name="tvOldPassword">Old password</string>
+    <string name="tvConfirmNewPassword">ConfirmPassword</string>
+    <string name="tvUpdate">Update</string>
 
 </resources>
