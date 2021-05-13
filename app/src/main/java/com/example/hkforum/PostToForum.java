@@ -49,8 +49,8 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.gps:
-//                        startActivity(new Intent(getApplicationContext(),FindGps.class));
-//                        overridePendingTransition(0,0);
+                        startActivity(new Intent(getApplicationContext(),LocationGPS.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.profile:
                         startActivity(new Intent(getApplicationContext(),Profile.class));

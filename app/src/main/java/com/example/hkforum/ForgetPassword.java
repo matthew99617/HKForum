@@ -16,7 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Forget_Password extends AppCompatActivity implements View.OnClickListener{
+public class ForgetPassword extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView btnBackToLogin;
 
@@ -44,24 +44,24 @@ public class Forget_Password extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btnLoginBack:
-                startActivity(new Intent(getApplicationContext(), Login.class));
-            case R.id.btnReset:
-                resetPassword();
+        if (v.getId() == R.id.btnLoginBack) {
+            startActivity(new Intent(getApplicationContext(), Login.class));
+        }
+        if (v.getId() == R.id.btnReset) {
+            resetPassword();
         }
     }
 
     private void resetPassword() {
         String email = resetEmail.getText().toString().trim();
 
-        if (email.isEmpty()){
+        if (email.isEmpty()) {
             resetEmail.setError("Email is required!");
             resetEmail.requestFocus();
             return;
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             resetEmail.setError("Please provide valid email!");
             resetEmail.requestFocus();
             return;
@@ -70,10 +70,10 @@ public class Forget_Password extends AppCompatActivity implements View.OnClickLi
         mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Toast.makeText(Forget_Password.this,"Check your email to reset your password!", Toast.LENGTH_LONG).show();
+                if (task.isSuccessful()) {
+                    Toast.makeText(ForgetPassword.this, "Check your email to reset your password!", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(Forget_Password.this,"Try again! Something wrong happened!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ForgetPassword.this, "Try again! Something wrong happened!", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -1,7 +1,15 @@
 package com.example.hkforum;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -13,19 +21,28 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.example.hkforum.model.District;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+import java.util.List;
+import java.util.Locale;
+
+public class Login extends AppCompatActivity implements LocationListener {
 
     private TextView registerUser,forgetPassword;
     private EditText edEmail, edPassword;
     private Button btnLogin;
 
     private FirebaseAuth mAuth;
+    private District district;
+
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,27 +50,71 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        district = District.getInstance();
 
+        btnLogin = (Button) findViewById(R.id.btnLogin);
         forgetPassword = (TextView) findViewById(R.id.tvForgotPassword);
         edEmail = (EditText) findViewById(R.id.inputLoginEmail);
         edPassword = (EditText) findViewById(R.id.inputPassword);
         registerUser = (TextView) findViewById(R.id.tvGoToRegister);
-        registerUser.setOnClickListener(this);
 
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLogin.setOnClickListener(this);
+        registerUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),Register.class));
+            }
+        });
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userLogin();
+            }
+        });
+
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ForgetPassword.class));
+
+            }
+        });
+        if (ContextCompat.checkSelfPermission(Login.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(Login.this,new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            },100);
+        }
+        getLocation();
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLocation() {
+
+        try {
+            locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,Login.this);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btnLogin:
-                userLogin();
-//                startActivity(new Intent(this, ToForum.class));
-                break;
-            case R.id.tvGoToRegister:
-                startActivity(new Intent(this,Register.class));
+    public void onLocationChanged(Location location) {
+        Toast.makeText(this, ""+location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_SHORT).show();
+        try {
+            Geocoder geocoder = new Geocoder(Login.this, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+            String state = addresses.get(0).getAdminArea();
+
+            district.setStrDistrict(state);
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     private void userLogin() {

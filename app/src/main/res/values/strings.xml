@@ -32,5 +32,7 @@
     <string name="tvOldPassword">Old password</string>
     <string name="tvConfirmNewPassword">ConfirmPassword</string>
     <string name="tvUpdate">Update</string>
+    <string name="tvGetCurrentLocation">Get Current Location</string>
+    <string name="tvDistrict">Your district place: </string>
 
 </resources>

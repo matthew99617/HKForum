@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hkforum.model.District;
 import com.example.hkforum.model.Users;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +36,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
     private DatabaseReference reference;
     private FirebaseUser user;
+    private ImageView btnProfileBack;
+    private District district;
 
     private String userID;
     private AlertDialog.Builder builder;
@@ -46,7 +49,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
         builder = new AlertDialog.Builder(this);
 
-        ImageView btnProfileBack = findViewById(R.id.btnProfileBack);
+        btnProfileBack = findViewById(R.id.btnProfileBack);
         btnProfileBack.setOnClickListener(this);
 
         Button btnLogout = findViewById(R.id.btnLogout);
@@ -110,8 +113,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.gps:
-//                        startActivity(new Intent(getApplicationContext(),FindGps.class));
-//                        overridePendingTransition(0,0);
+                        startActivity(new Intent(getApplicationContext(),LocationGPS.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.profile:
                         return true;
@@ -132,6 +135,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
             startActivity(new Intent(Profile.this, Login.class));
         } else if (v.getId() == R.id.editInfo) {
             showEditProfileDialog();
+        } else if (v.getId() == R.id.btnProfileBack){
+            startActivity(new Intent(Profile.this, ToForum.class));
         }
     }
 

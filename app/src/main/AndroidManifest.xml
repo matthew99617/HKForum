@@ -3,6 +3,8 @@
     package="com.example.hkforum">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Forget_Password"></activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD8Kg8pOV-zbioeZbGX9JKZ8JPls5Pp3Wc"/>
+
+        <activity android:name=".ForgetPassword"></activity>
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +33,7 @@
         <activity android:name=".Profile" />
         <activity android:name=".ToForum" />
         <activity android:name=".PostToForum" />
+        <activity android:name=".LocationGPS" />
     </application>
 
 </manifest>
