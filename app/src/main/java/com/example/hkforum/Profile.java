@@ -2,7 +2,6 @@ package com.example.hkforum;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,7 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hkforum.model.District;
+import com.example.hkforum.model.DistrictSingleton;
+import com.example.hkforum.model.UsernameSingleton;
 import com.example.hkforum.model.Users;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,7 +37,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     private DatabaseReference reference;
     private FirebaseUser user;
     private ImageView btnProfileBack;
-    private District district;
+    private UsernameSingleton usernameSingleton;
 
     private String userID;
     private AlertDialog.Builder builder;
@@ -48,6 +48,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_profile);
 
         builder = new AlertDialog.Builder(this);
+
+        usernameSingleton = UsernameSingleton.getInstance();
 
         btnProfileBack = findViewById(R.id.btnProfileBack);
         btnProfileBack.setOnClickListener(this);
@@ -104,10 +106,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.dashboard:
-                        startActivity(new Intent(getApplicationContext(), ChooseLocation.class));
-                        overridePendingTransition(0, 0);
-                        return true;
                     case R.id.home:
                         startActivity(new Intent(getApplicationContext(), ToForum.class));
                         overridePendingTransition(0, 0);
@@ -193,6 +191,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
     private boolean updateUserName(String username) {
         reference.child(userID).child("userName").setValue(username);
+        usernameSingleton.setStrUsername(username);
+
         return true;
     }
 

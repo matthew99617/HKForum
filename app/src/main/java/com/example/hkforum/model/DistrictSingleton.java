@@ -1,16 +1,16 @@
 package com.example.hkforum.model;
 
-public class District {
+public class DistrictSingleton {
     private String strDistrict;
 
-    private static District instance;
-    private District(){
+    private static DistrictSingleton instance;
+    private DistrictSingleton(){
 
     }
 
-    public static District getInstance(){
+    public static DistrictSingleton getInstance(){
         if (instance == null){
-            instance = new District();
+            instance = new DistrictSingleton();
         }
         return instance;
     }

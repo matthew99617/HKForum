@@ -24,23 +24,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.hkforum.model.District;
+import com.example.hkforum.model.DistrictSingleton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class Login extends AppCompatActivity implements LocationListener {
 
-    private TextView registerUser,forgetPassword;
+    private TextView registerUser, forgetPassword;
     private EditText edEmail, edPassword;
     private Button btnLogin;
 
     private FirebaseAuth mAuth;
-    private District district;
+    private DistrictSingleton districtSingleton;
+
+    DatabaseReference root;
 
     LocationManager locationManager;
 
@@ -50,7 +54,7 @@ public class Login extends AppCompatActivity implements LocationListener {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        district = District.getInstance();
+        districtSingleton = DistrictSingleton.getInstance();
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         forgetPassword = (TextView) findViewById(R.id.tvForgotPassword);
@@ -61,7 +65,7 @@ public class Login extends AppCompatActivity implements LocationListener {
         registerUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Register.class));
+                startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
 
@@ -69,21 +73,22 @@ public class Login extends AppCompatActivity implements LocationListener {
             @Override
             public void onClick(View v) {
                 userLogin();
+//                startActivity(new Intent(Login.this, ToForum.class));
             }
         });
 
         forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ForgetPassword.class));
+                startActivity(new Intent(getApplicationContext(), ForgetPassword.class));
 
             }
         });
         if (ContextCompat.checkSelfPermission(Login.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(Login.this,new String[]{
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(Login.this, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION
-            },100);
+            }, 100);
         }
         getLocation();
     }
@@ -93,25 +98,23 @@ public class Login extends AppCompatActivity implements LocationListener {
 
         try {
             locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,Login.this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, Login.this);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(this, ""+location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_SHORT).show();
         try {
             Geocoder geocoder = new Geocoder(Login.this, Locale.getDefault());
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             String state = addresses.get(0).getAdminArea();
 
-            district.setStrDistrict(state);
+            districtSingleton.setStrDistrict(state);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -121,22 +124,22 @@ public class Login extends AppCompatActivity implements LocationListener {
         String email = edEmail.getText().toString().trim();
         String password = edPassword.getText().toString().trim();
 
-        if(email.isEmpty()){
+        if (email.isEmpty()) {
             edEmail.setError("Email is required!");
             edEmail.requestFocus();
             return;
         }
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edEmail.setError("Please enter a valid email!");
             edEmail.requestFocus();
             return;
         }
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             edPassword.setError("Password is required!");
             edPassword.requestFocus();
             return;
         }
-        if(password.length() < 8){
+        if (password.length() < 8) {
             edPassword.setError("Password should be 8 characters!");
             edPassword.requestFocus();
             return;
@@ -148,7 +151,8 @@ public class Login extends AppCompatActivity implements LocationListener {
 
                 closeKeyboard();
 
-                if (task.isSuccessful()){
+
+                if (task.isSuccessful()) {
                     //redirect to user profile
                     startActivity(new Intent(Login.this, ToForum.class));
                 } else {
@@ -161,8 +165,8 @@ public class Login extends AppCompatActivity implements LocationListener {
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }
