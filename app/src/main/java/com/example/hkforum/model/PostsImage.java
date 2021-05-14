@@ -2,47 +2,33 @@ package com.example.hkforum.model;
 
 public class PostsImage {
 
-    public String strDistrict, strUsername, strTitle, strContent;
+    public String District, Username, Title, Text, imageUrl;
 
     public PostsImage(){
 
     }
 
-    public PostsImage(String strDistrict, String strUsername , String strTitle, String strContent){
-        this.strDistrict = strDistrict;
-        this.strUsername = strUsername;
-        this.strTitle = strTitle;
-        this.strContent = strContent;
+    public PostsImage(String District, String Username , String Title, String Text, String imageUrl){
+        this.District = District;
+        this.Username = Username;
+        this.Title = Title;
+        this.Text = Text;
+        this.imageUrl = imageUrl;
     }
-    public String getStrDistrict() {
-        return strDistrict;
-    }
-
-    public void setStrDistrict(String strDistrict) {
-        this.strDistrict = strDistrict;
+    public String getShowUsername() {
+        return Username;
     }
 
-    public String getStrUsername() {
-        return strUsername;
+    public String getShowTitle() {
+        return Title;
     }
 
-    public void setStrUsername(String strUsername) {
-        this.strUsername = strUsername;
+    public String getShowText() {
+        return Text;
     }
 
-    public String getStrTitle() {
-        return strTitle;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setStrTitle(String strTitle) {
-        this.strTitle = strTitle;
-    }
-
-    public String getStrContent() {
-        return strContent;
-    }
-
-    public void setStrContent(String strContent) {
-        this.strContent = strContent;
-    }
 }

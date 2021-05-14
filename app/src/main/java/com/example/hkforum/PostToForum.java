@@ -2,6 +2,7 @@ package com.example.hkforum;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +29,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.hkforum.model.DistrictSingleton;
+import com.example.hkforum.model.PostsImage;
 import com.example.hkforum.model.UsernameSingleton;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -48,7 +53,7 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
     private DistrictSingleton districtSingleton;
     private UsernameSingleton usernameSingleton;
     private String username;
-    private String tempLocation;
+    private String tempLocation, title, content;
 
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
@@ -84,7 +89,7 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
         edTitle = findViewById(R.id.editTitle);
         edText = findViewById(R.id.editText);
         tvRemindUser = findViewById(R.id.tvRemindUser);
-        tvRemindUser.setText("You are going to post in "+tempLocation+" forum.");
+        tvRemindUser.setText("You are going to post in " + tempLocation + " forum.");
 
         backToForum = findViewById(R.id.backToPost);
         backToForum.setOnClickListener(this);
@@ -125,11 +130,22 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
         if (v.getId() == R.id.backToPost) {
             startActivity(new Intent(getApplicationContext(), ToForum.class));
         } else if (v.getId() == R.id.btnPost) {
-            if (imageUri == null){
-                Toast.makeText(this,"onPostWithoutImage",Toast.LENGTH_LONG).show();
+            title = edTitle.getText().toString().trim();
+            content = edText.getText().toString().trim();
+
+            if (title.isEmpty()) {
+                edTitle.setError("Title is required!");
+                edTitle.requestFocus();
+                return;
+            }
+            if (content.isEmpty()) {
+                edText.setError("Text is required!");
+                edText.requestFocus();
+                return;
+            }
+            if (imageUri == null) {
                 onPostWithoutImage();
             } else {
-                Toast.makeText(this, "onPostWithImage", Toast.LENGTH_SHORT).show();
                 onPostWithImage(imageUri);
             }
 //                startActivity(new Intent(getApplicationContext(), ToForum.class));
@@ -159,7 +175,7 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
     }
 
     private void cameraPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager
                     .PERMISSION_DENIED || checkSelfPermission(Manifest.permission
                     .WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
@@ -175,18 +191,18 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == CAMERA_PERM_CODE){
+        if (requestCode == CAMERA_PERM_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
             } else {
-                Toast.makeText(this,"Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
-        if (requestCode == PERMISSION_CODE){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
             } else {
-                Toast.makeText(this,"Permission denied...",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permission denied...", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -205,18 +221,20 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
     @SuppressLint("MissingSuperCall")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode == RESULT_OK)
+        if (resultCode == RESULT_OK) {
             postImage.setImageURI(imageUri);
+        }
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK){
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             imageUri = data.getData();
-            try{
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 postImage.setImageBitmap(bitmap);
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
     }
 
     private void choosePhoto() {
@@ -224,32 +242,68 @@ public class PostToForum extends AppCompatActivity implements View.OnClickListen
         gallery.setType("image/*");
         gallery.setAction(Intent.ACTION_GET_CONTENT);
 
-        startActivityForResult(Intent.createChooser(gallery,"Select Picture"), PICK_IMAGE);
+        startActivityForResult(Intent.createChooser(gallery, "Select Picture"), PICK_IMAGE);
     }
 
     private void onPostWithImage(Uri uri) {
+
+        StorageReference storageReference2 = storageReference
+                .child(System.currentTimeMillis() + "." + GetFileExtension(uri));
+        storageReference2.putFile(uri).
+                addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                storageReference2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Toast.makeText(getApplicationContext(),"Image Uploaded Successfully",Toast.LENGTH_LONG).show();
+
+                        PostsImage postsImage = new PostsImage(tempLocation,
+                                username, title, content, uri.toString());
+
+                        databaseReference.push().setValue(postsImage);
+                    }
+                });
+                // Reset all input
+                edText.setText("");
+                edTitle.setText("");
+                imageUri = null;
+                postImage.invalidate();
+                postImage.setImageBitmap(null);
+                closeKeyboard();
+            }
+        });
+
+    }
+
+    public String GetFileExtension(Uri uri) {
+
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
 
     }
 
     public void onPostWithoutImage() {
         String title = edTitle.getText().toString().trim();
         String content = edText.getText().toString().trim();
-        if (title.isEmpty()){
+        if (title.isEmpty()) {
             edTitle.setError("Title is required!");
             edTitle.requestFocus();
             return;
         }
-        if (content.isEmpty()){
-            edText.setError("Last name is required!");
+        if (content.isEmpty()) {
+            edText.setError("Text is required!");
             edText.requestFocus();
             return;
         }
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("Title",title);
-        map.put("Text",content);
-        map.put("Username",username);
-        map.put("District",tempLocation);
+        map.put("Title", title);
+        map.put("Text", content);
+        map.put("Username", username);
+        map.put("District", tempLocation);
+        map.put("imageUrl", null);
 
         databaseReference.push().setValue(map);
         edText.setText("");

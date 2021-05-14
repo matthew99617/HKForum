@@ -103,18 +103,14 @@ public class LocationGPS extends AppCompatActivity {
             }
         });
 
-        btnGetCurrent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(LocationGPS.this,
-                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(LocationGPS.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-                    getCurrentLocation();
-                } else {
-                    ActivityCompat.requestPermissions(LocationGPS.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-                }
-            }
-        });
+            getCurrentLocation();
+        } else {
+            ActivityCompat.requestPermissions(LocationGPS.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+        }
+
     }
 
     private void getCurrentLocation() {
@@ -146,30 +142,7 @@ public class LocationGPS extends AppCompatActivity {
 
                                 tvDistrict.setText(state);
                                 districtSingleton.setStrDistrict(state);
-//                                root = FirebaseDatabase.getInstance().getReference().child("District");
-//                                root.addValueEventListener(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                                            array = new ArrayList();
-//                                            array.add(dataSnapshot.getValue().toString());
-//                                        }
-//                                        for (int i = 0; i <array.size(); i++){
-//                                            String temp = array.get(i);
-//                                            if (temp.equals(state)){
-//                                                break;
-//                                            } else {
-//                                                root.push().setValue(state);
-//                                                i = array.size();
-//                                            }
-//                                        }
-//                                    }
 //
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError error) {
-//                                        Toast.makeText(LocationGPS.this, "Something wrong happened!", Toast.LENGTH_LONG).show();
-//                                    }
-//                                });
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

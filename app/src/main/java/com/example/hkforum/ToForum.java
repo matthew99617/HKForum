@@ -10,13 +10,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hkforum.adapter.PostAdapter;
 import com.example.hkforum.model.DistrictSingleton;
-import com.example.hkforum.model.Posts;
+import com.example.hkforum.model.PostsImage;
 import com.example.hkforum.model.UsernameSingleton;
-import com.example.hkforum.model.Users;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,28 +26,35 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class ToForum extends AppCompatActivity implements View.OnClickListener {
 
-    private String userID;
+
     private ImageView ic_add;
     private TextView tvForumDistrict;
     private DistrictSingleton district;
-    private Posts posts;
+    private ArrayList<PostsImage> postsImages;
 
-    private DatabaseReference referenceUsername, referencePosts;
-    private FirebaseUser user;
+    private DatabaseReference referencePosts;
+    private String tempLocation;
+    String username;
 
+    private String strDistrict = "District";
     private UsernameSingleton usernameSingleton;
+
+    RecyclerView recyclerView;
+    PostAdapter postAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_forum);
 
-        posts = new Posts();
+        postsImages = new ArrayList<>();
 
         district = DistrictSingleton.getInstance();
-        String temp = getIntent().getStringExtra("Location");
+        tempLocation = district.getStrDistrict();
 
         tvForumDistrict = findViewById(R.id.tvForumDistrict);
         tvForumDistrict.setText(district.getStrDistrict() + " Forum");
@@ -56,30 +65,6 @@ public class ToForum extends AppCompatActivity implements View.OnClickListener {
 
         ic_add = findViewById(R.id.ic_add);
         ic_add.setOnClickListener(this);
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        referenceUsername = FirebaseDatabase.getInstance().getReference("Users");
-        userID = user.getUid();
-        referenceUsername.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Users userProfile = snapshot.getValue(Users.class);
-
-                if (userProfile != null) {
-                    String userName = userProfile.userName;
-
-                    usernameSingleton.setStrUsername(userName);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ToForum.this, "Something wrong happened!", Toast.LENGTH_LONG).show();
-            }
-        });
-
-//        referencePosts.child(posts.getId());
-
 
         // Initialize and assign variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bottom);
@@ -108,6 +93,30 @@ public class ToForum extends AppCompatActivity implements View.OnClickListener {
                         return true;
                 }
                 return false;
+            }
+        });
+
+        recyclerView = findViewById(R.id.recViewPost);
+
+        referencePosts.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (dataSnapshot.child(strDistrict).getValue().toString().equals(tempLocation)) {
+                        PostsImage postsImage = dataSnapshot.getValue(PostsImage.class);
+                        postsImages.add(postsImage);
+                    }
+                }
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                username = usernameSingleton.getStrUsername();
+                postAdapter = new PostAdapter(username, postsImages, getApplicationContext());
+                recyclerView.setAdapter(postAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

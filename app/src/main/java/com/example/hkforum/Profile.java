@@ -84,6 +84,9 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                     lastNameTextView.setText(lastName);
                     emailTextView.setText(email);
                     userNameTextView.setText(userName);
+
+                    usernameSingleton.setStrUsername(userName);
+
                 }
             }
 

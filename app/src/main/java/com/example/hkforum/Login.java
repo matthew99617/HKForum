@@ -25,11 +25,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.hkforum.model.DistrictSingleton;
+import com.example.hkforum.model.UsernameSingleton;
+import com.example.hkforum.model.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +51,8 @@ public class Login extends AppCompatActivity implements LocationListener {
     private FirebaseAuth mAuth;
     private DistrictSingleton districtSingleton;
 
-    DatabaseReference root;
-
     LocationManager locationManager;
+    UsernameSingleton usernameSingleton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,8 @@ public class Login extends AppCompatActivity implements LocationListener {
 
         mAuth = FirebaseAuth.getInstance();
         districtSingleton = DistrictSingleton.getInstance();
+
+        usernameSingleton = UsernameSingleton.getInstance();
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         forgetPassword = (TextView) findViewById(R.id.tvForgotPassword);
@@ -150,11 +158,9 @@ public class Login extends AppCompatActivity implements LocationListener {
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 closeKeyboard();
-
-
                 if (task.isSuccessful()) {
-                    //redirect to user profile
-                    startActivity(new Intent(Login.this, ToForum.class));
+
+                    startActivity(new Intent(Login.this, Profile.class));
                 } else {
                     Toast.makeText(Login.this, "Failed to login! Please check your email or password!", Toast.LENGTH_LONG).show();
                 }
