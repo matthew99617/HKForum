@@ -121,6 +121,7 @@ public class Login extends AppCompatActivity implements LocationListener {
             String state = addresses.get(0).getAdminArea();
 
             districtSingleton.setStrDistrict(state);
+            System.out.println(districtSingleton.getStrDistrict());
 
         } catch (Exception e) {
             e.printStackTrace();

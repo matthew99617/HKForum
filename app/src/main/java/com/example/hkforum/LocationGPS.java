@@ -102,15 +102,18 @@ public class LocationGPS extends AppCompatActivity {
                 return false;
             }
         });
+        btnGetCurrent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(LocationGPS.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-        if (ActivityCompat.checkSelfPermission(LocationGPS.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            getCurrentLocation();
-        } else {
-            ActivityCompat.requestPermissions(LocationGPS.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-        }
-
+                    getCurrentLocation();
+                } else {
+                    ActivityCompat.requestPermissions(LocationGPS.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+                }
+            }
+        });
     }
 
     private void getCurrentLocation() {
